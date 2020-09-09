@@ -17,7 +17,7 @@ app.post("/todos", async (req, res) => {
   try {
     const { description } = req.body;
     const newTodo = await pool.query(
-      `INSERT INTO todo (description) VALUES(${description}) RETURNING *`
+      'INSERT INTO todo (description) VALUES($1) RETURNING *', [description]
     );
     res.json(newTodo.rows[0]);
   } catch (err) {
@@ -66,7 +66,7 @@ app.delete("/todos/:id", async (req, res) => {
     const deletedTodo = await pool.query(
       `DELETE FROM todo WHERE todo_id = ${req.params.id}`
     );
-    res.json(deletedTodo)
+    res.json("Successfully deleted todo.")
   } catch (err) {
     console.error(err.message);
   }
