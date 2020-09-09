@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+import EditTodo from "./EditTodo";
+
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
     getTodos();
-  }, [todos]);
+  }, []);
 
   const getTodos = async () => {
     try {
@@ -22,7 +24,7 @@ const TodoList = () => {
       const response = await fetch(`http://localhost:5000/todos/${id}`, {
         method: "DELETE",
       });
-      console.log(response);
+      setTodos(todos.filter(todo => todo.todo_id !== id));
     } catch (err) {
       console.error(err.message);
     }
@@ -43,7 +45,7 @@ const TodoList = () => {
             <tr key={todo.todo_id}>
               <td>{todo.description}</td>
               <td>
-                <button className="btn btn-secondary">Edit</button>
+                <EditTodo todo={todo}/>
               </td>
               <td>
                 <button
